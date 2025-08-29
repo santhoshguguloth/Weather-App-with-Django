@@ -1,0 +1,29 @@
+{% load static %}   <!-- add this line at the very top -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Your City Name</label>
+        <input type="text" name="city" placeholder="Enter city name">
+        <button type="submit">Fetch Weather</button>
+    </form>
+
+    <br>
+
+    {% if weather_data.city %}
+        <h2>{{ weather_data.city }}</h2>
+        <p>🌥️ Today we have {{ weather_data.description }}</p>
+        <p>🌡️ Temperature: {{ weather_data.temperature|floatformat:2 }} °C</p>
+        <p>🤔 Feels like: {{ weather_data.feels_like|floatformat:2 }} °C</p>
+    {% elif weather_data.error %}
+        <p style="color:red;">⚠️ {{ weather_data.error }}</p>
+    {% endif %}
+</body>
+</html>
+
